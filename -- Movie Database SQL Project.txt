@@ -1,0 +1,37 @@
+-- Movie Database SQL Project
+
+-- 1. List all movies with genre names
+SELECT m.title, g.genre_name, m.rating
+FROM movies m
+JOIN genres g ON m.genre_id = g.genre_id;
+
+-- 2. Top 3 highest-rated movies
+SELECT title, rating
+FROM movies
+ORDER BY rating DESC
+LIMIT 3;
+
+-- 3. Count of movies by genre
+SELECT g.genre_name, COUNT(*) AS total_movies
+FROM movies m
+JOIN genres g ON m.genre_id = g.genre_id
+GROUP BY g.genre_name;
+
+-- 4. Average rating by director
+SELECT d.name AS director_name, ROUND(AVG(m.rating), 2) AS avg_rating
+FROM directors d
+JOIN movie_directors md ON d.director_id = md.director_id
+JOIN movies m ON m.movie_id = md.movie_id
+GROUP BY d.name;
+
+-- 5. Movies released after 2010
+SELECT title, release_year
+FROM movies
+WHERE release_year > 2010;
+
+-- 6. Directors with more than 2 movies
+SELECT d.name, COUNT(*) AS movie_count
+FROM directors d
+JOIN movie_directors md ON d.director_id = md.director_id
+GROUP BY d.name
+HAVING COUNT(*) > 2;
